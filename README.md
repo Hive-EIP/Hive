@@ -7,10 +7,10 @@
 |-----------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|--------------------------------|-------------------------------------------|
 | User Registration and Profile Creation	                                                                                     | Users can sign up, create, and customize their profile with personal details and an avatar | High                           | Added : ability to link profiles to teams |
 | Team Creation, Joining and Managing                                                                                         | Users can create teams, manage, invite members, and join existing teams                   | High                           | [No Modification or addition]             |
-| Tournament Creation, Joining and Managing (IN THE APP) (GABRIEL TU FERAS CA AUSSI POUR LA VERSION DISCORD EN HIGH PRIORITY) | Users can create tournaments, join them, and track progress                                                                        | Low                            | [No Modification or addition]             |
+| Tournament Creation, Joining and Managing (IN THE APP) | Users can create tournaments, join them, and track progress                                                                        | Low                            | [No Modification or addition]             |
 | Matchmaking & Ranking System                                                                                                | Matchmaking based on players’ skill levels, with ranking displays                                                                       | High                           | Added : Rank for team (to define)         |
 | Messaging System                                                                                                            | Messaging between users for private and team-based discussions                                                                       | Low                            | [No Modification or addition]             |
-| POUR TON DISCORD GABI EXPLIQUE CE QUE C'EST, PQ, ET EN QUOI C'EST UN OUTIL DE COM POUR NOUS                                 | [Brief description]                                                                       | High                           | [à toi gab]                               |
+| Discord & Bot Discord                                | We chose Discord as our main communication platform because it allows real-time interaction, teamwork, and community engagement. To enhance this experience, the Hive Discord bot was created to organize and manage tournaments easily, making competitions more accessible and structured for everyone.                                                                           | High                           | The Hive Discord bot is designed to create and manage tournaments seamlessly within the community. It supports up to 32 teams, allows bracket customization, and lets users personalize titles, backgrounds, and colors. The bot automates match tracking and rankings, making tournament organization more efficient and engaging for everyone.                             |
 ---
 
 ## **2. Beta Testing Scenarios**
@@ -78,8 +78,11 @@ Success criteria for the beta test:
 |--------------|-----------------------------------------------------------------------|----------------------------|---------------------------|
 | Limitation 1 | [No support for tournaments with more than 32 teams in discord]       | Low                        | No                        |
 | Limitation 2 | [API for requesting stats of player limited (depends of the request)] | Low now, higher and higher | We would like             |
-| Bug 1        | --                                                                    | --                         | --                        |
----
+| Bug 1        | Bracket not updating properly – In some cases, the tournament bracket does not refresh automatically after a match result is entered.                                                                | High                         | Already Fixed                        |
+| Bug 2        | Team registration glitches – Some users experienced difficulties when joining or creating teams due to inconsistent role assignments.         | High   | Yes (In Progress)
+| Bug 3        | Final team registration bug – When adding the last team to a tournament, the team is correctly saved in the JSON file, but the tournament image fails to generate.         | High   | Already Fixed
+
+
 
 ## **5. Conclusion**
 
