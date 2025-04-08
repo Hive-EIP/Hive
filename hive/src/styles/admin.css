@@ -2,10 +2,9 @@
     width: 100vw;
     height: 100vh;
     min-height: 100%;
-    background-color: #101A3D;
+    background-color: #fff;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
 
 .topPage {
@@ -35,7 +34,7 @@
 
 }
 
-button {
+.button {
     width: 10%;
     height: 75%;
     border-radius: 20px;

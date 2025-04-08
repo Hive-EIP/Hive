@@ -1,14 +1,24 @@
 // Navigation.js
 import React from "react";
-import { Link } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "../screens/home";
+import Login from "../screens/login";
+import Admin from "../screens/admin";
+import Profile from "../screens/profile";
+import Error from "../screens/error";
 
 function Navigation() {
   return (
-    <nav>
-      <Link to="/">Home</Link> |{" "}
-      <Link to="/admin">Admin</Link> |{" "}
-      <Link to="/profile">Profile</Link>
-    </nav>
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<Login/>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/home" element={<Home/>}/>
+        <Route path="/admin" element={<Admin/>}/>
+        <Route path="/profile" element={<Profile/>}/>
+        <Route path="*" element={<Error/>}/>
+      </Routes>
+    </BrowserRouter>
   );
 }
 

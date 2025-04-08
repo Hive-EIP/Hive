@@ -1,4 +1,4 @@
-// pages/Home.js
+// pages/Admin.js
 
 import React from "react";
 import '../styles/admin.css'
