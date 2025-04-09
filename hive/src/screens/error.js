@@ -1,4 +1,4 @@
-// pages/Home.js
+// pages/Error.js
 import React from "react";
 
 function Error() {
