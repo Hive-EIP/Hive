@@ -1,6 +1,7 @@
 // App.js
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./styles/template.css"
 import Home from "./screens/home";
 import Login from "./screens/login";
 import Admin from "./screens/admin";
