@@ -8,7 +8,7 @@ function Login() {
   const navigation = useNavigate();
 
   return (
-    <div className="container-login">
+    <div className="basic-container">
         <div className="top-page-login">
         </div>
         <div className="middle-page-login">
@@ -36,7 +36,7 @@ function Login() {
                   <Link to={"/forget"} style={{color: "#000"}}>Forget password</Link>
                 </div>
                 <div className="submit-login">
-                  <button className="submit-button-login" onPress={() => navigation.navigate('Home')}>LOGIN</button>
+                  <button className="submit-50" onPress={() => navigation.navigate('Home')}>LOGIN</button>
                   <Link style={{fontSize: "10px", marginTop: "1em", color: "#000"}} to={"/home"}>Continue without connecting</Link>
                 </div>
               </form>

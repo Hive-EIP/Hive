@@ -1,0 +1,58 @@
+:root {
+    --background: #EDE0D4;
+    --primary: #DDB892;
+    --secondary: #E6CCB2;
+    --hover: #f7cf94;
+    --focus: #ff416c;
+}
+
+/* Font */
+
+@font-face {
+    font-family: "Kanit"; /* Nom personnalisé */
+    src: url("../assets/fonts/Kanit-Regular.ttf") format("truetype"); /* Chemin relatif */
+}
+
+/* Container */
+
+.basic-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    font-family: Kanit;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+/* Buttons */
+
+.submit-50 {
+    width: 50%;
+    height: 50px;
+    border-radius: 10px;
+    background-color: var(--secondary);
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: Kanit;
+    transition: .3s;
+}
+
+.submit-50:hover {
+    width: 60%;
+    background-color: var(--hover);
+    border: none;
+    transition: .3s;
+}
+
+/* Inputs */
+
+.input-50 {
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+input:focus {
+    outline: 2px solid var(--focus);
+}
