@@ -1,19 +1,10 @@
-.container-signup {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    font-family: Kanit;
-}
-
-.top-page-signup {
+.top-page-forget {
     display: flex;
     flex: 0.5;
     background-color: var(--background);
 }
 
-.middle-page-signup {
+.middle-page-forget {
     display: flex;
     flex: 2;
     justify-content: center;
@@ -21,7 +12,7 @@
     background-color: var(--background);
 }
 
-.id-container-signup {
+.id-container-forget {
     width: 25%;
     height: auto;
     min-width: 300px;
@@ -35,7 +26,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.logo-signup {
+.logo-forget {
     position: relative;
     display: flex;
     justify-content: center;
@@ -44,20 +35,19 @@
     gap: 16px;
     margin-top: 1em;
     margin-bottom: 1em;
-  }
-  
+}
+
 .arrow-icon {
     position: absolute;
     left: 0;
     margin-left: 1em;
-    transition: .3s;
 }
   
 .logo-signup img {
     margin: 0 auto;
 }
 
-.credentials-container-signup {
+.credentials-container-forget {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -68,7 +58,7 @@
     border-radius: 15px;
 }
 
-.input-signup {
+.input-forget {
     width: 90%;
     height: 100%;
     display: flex;
@@ -79,7 +69,7 @@
     margin-bottom: 0.5em;
 }
 
-.submit-container-signup {
+.submit-container-forget {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -89,7 +79,7 @@
     margin-bottom: 1em;
 }
 
-.bottom-page-signup {
+.bottom-page-forget {
     display: flex;
     flex: 0.5;
     background-color: var(--background);
