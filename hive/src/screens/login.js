@@ -32,12 +32,12 @@ function Login() {
                 </div>
                 <hr style={{width: "90%", borderTop: "1px solid", borderColor: "#000000"}}></hr>
                 <div className="links-login">
-                  <Link to={"/signUp"} style={{color: "#000"}}>Sign Up</Link>
-                  <Link to={"/forget"} style={{color: "#000"}}>Forget password</Link>
+                  <Link to={"/signUp"} style={{color: "var(--text)"}}>Sign Up</Link>
+                  <Link to={"/forget"} style={{color: "var(--text)"}}>Forget password</Link>
                 </div>
                 <div className="submit-login">
                   <button className="submit-50" onPress={() => navigation.navigate('Home')}>LOGIN</button>
-                  <Link style={{fontSize: "10px", marginTop: "1em", color: "#000"}} to={"/home"}>Continue without connecting</Link>
+                  <Link style={{fontSize: "10px", marginTop: "1em", color: "#fff", textDecoration: "underline white"}} to={"/home"}>Continue without connecting</Link>
                 </div>
               </form>
             </div>

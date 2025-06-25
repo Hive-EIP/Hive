@@ -31,7 +31,7 @@ function Forget() {
             </div>
             <hr style={{width: "90%", borderTop: "1px solid", borderColor: "#000000"}}></hr>
             <div className="submit-container-forget">
-              <button type="submit" className="submit-50">Sign Up</button>
+              <button type="submit" className="submit-50">Modify password</button>
             </div>
           </form>
         </div>
