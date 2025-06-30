@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Test CAPTCHA</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+<h2>Formulaire de test - Reset password avec CAPTCHA</h2>
+<form id="resetForm">
+    <label>Email :
+        <input type="email" name="email" required>
+    </label>
+    <br><br>
+    <div class="g-recaptcha" data-sitekey="6LdiwG8rAAAAAOY2n0yUBxuQIVdsQJWEvt65EDq1"></div>
+    <br>
+    <button type="submit">Envoyer</button>
+</form>
+
+<script>
+    document.getElementById("resetForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const email = this.email.value;
+        const captchaToken = grecaptcha.getResponse();
+
+        if (!captchaToken) {
+            alert("Veuillez remplir le CAPTCHA !");
+            return;
+        }
+
+        const response = await fetch('http://localhost:4000/auth/forgot-password', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email, captchaToken })
+        });
+
+        const data = await response.json();
+        alert(JSON.stringify(data, null, 2));
+    });
+</script>
+</body>
+</html>
