@@ -34,9 +34,9 @@ const Navbar = () => {
           <Users size={20} className="nav-icon" />
           <span className="nav-text">Teams</span>
         </button>
-        <button className="submit-25 nav-button" onClick={() => navigate('/tournament')}>
+        <button className="submit-25 nav-button" onClick={() => navigate('/tournaments')}>
           <Trophy size={20} className="nav-icon" />
-          <span className="nav-text">Tournament</span>
+          <span className="nav-text">Tournaments</span>
         </button>
       </div>
     </div>

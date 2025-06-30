@@ -1,0 +1,16 @@
+html, body, #root {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.modal-page {
+  background-color: #e2b583;
+  border: none;
+  border-radius: 16px;
+  padding: 10px 24px;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  margin-bottom: 20px;
+}
