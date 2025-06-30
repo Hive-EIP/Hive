@@ -28,7 +28,7 @@
     min-height: 300px;
     height: auto;
     flex-direction: column;
-    background: linear-gradient(115deg, var(--primary), var(--tertiary));
+    background-color:var(--primary);
     border-radius: 15px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
