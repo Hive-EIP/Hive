@@ -2,23 +2,39 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles/tournaments.css';
 
-const TournamentList = ({ title, apiUrl }) => {
+const TournamentList = ({ title, apiUrl, extractFromField = null }) => {
   const [tournaments, setTournaments] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchTournaments = async () => {
-      try {
-        const res = await fetch(apiUrl);
-        const data = await res.json();
-        setTournaments(data);
-      } catch (err) {
-        console.error("Erreur lors du chargement des tournois:", err);
-      }
-    };
-    fetchTournaments();
-  }, [apiUrl]);
+    useEffect(() => {
+        const fetchTournaments = async () => {
+            try {
+                const token = localStorage.getItem('access_token');
+                const res = await fetch(apiUrl, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (!res.ok) throw new Error(`Erreur HTTP ${res.status}`);
+
+                const data = await res.json();
+                console.log("🎯 Données tournois :", data);
+                const extracted = extractFromField ? data[extractFromField] : data;
+
+                if (!Array.isArray(extracted)) {
+                    console.error("⚠️ Réponse inattendue (pas un tableau) :", data);
+                    setTournaments([]);
+                } else {
+                    setTournaments(extracted);
+                }
+            } catch (err) {
+                console.error("Erreur lors du chargement des tournois:", err);
+                setTournaments([]);
+            }
+        };
+
+        fetchTournaments();
+    }, [apiUrl, extractFromField]);
 
   const filteredTournaments = tournaments.filter(t =>
     t.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -75,7 +91,7 @@ const TournamentList = ({ title, apiUrl }) => {
               <span style={{ fontWeight: '500', color: 'black' }}>{tournament.name}</span>
             </div>
               <div style={{ fontSize: '12px', color: '#6e4f3a', display: 'flex', gap: '25px' }}>
-                <span>Elo restriction: {tournament.elo_restriction}</span>
+                <span>Elo restriction: {tournament.elomin} - {tournament.elomax} </span>
                 <span>Created by: <b>{tournament.creator}</b></span>
               </div>
           </div>

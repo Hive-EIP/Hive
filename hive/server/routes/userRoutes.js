@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getProfile } = require('../controllers/userController');
+const { getProfile, getAllUsers } = require('../controllers/userController');
 const authMiddleware = require('../middlewares/auth');
 const authorizeRole = require('../middlewares/authorizeRole');
 
@@ -17,5 +17,7 @@ router.get('/moderator-only', authMiddleware, authorizeRole(['moderator']), (req
 router.get('/player-only', authMiddleware, authorizeRole(['player']), (req, res) => {
     res.json({ message: 'Bienvenue Joueur 🎮' });
 });
+
+router.get('/all', authMiddleware, getAllUsers);
 
 module.exports = router;

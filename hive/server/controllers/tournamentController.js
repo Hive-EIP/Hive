@@ -99,12 +99,25 @@ exports.getRegisteredTournaments = async (req, res) => {
 
     try {
         const result = await pool.query(`
-      SELECT t.*
-      FROM tournaments t
-      JOIN tournament_registrations tr ON t.id = tr.tournament_id
-      WHERE tr.team_id = $1
-      ORDER BY t.start_date ASC
-    `, [teamId]);
+            SELECT
+                t.id,
+                t.name,
+                t.game,
+                t.description,
+                t.start_date,
+                t.created_by,
+                COALESCE(u.username, 'unknown') AS creator,
+                t.created_at,
+                t.status,
+                t.elo_min AS eloMin,
+                t.elo_max AS eloMax,
+                t.max_teams AS maxTeams
+            FROM tournaments t
+                     JOIN tournament_registrations tr ON t.id = tr.tournament_id
+                     LEFT JOIN users u ON t.created_by = u.id
+            WHERE tr.team_id = $1
+            ORDER BY t.start_date ASC
+        `, [teamId]);
 
         res.status(200).json({ tournaments: result.rows });
     } catch (err) {
@@ -204,6 +217,35 @@ exports.getTournamentMatches = async (req, res) => {
     } catch (err) {
         console.error('Erreur récupération des matchs :', err);
         res.status(500).json({ error: "Erreur lors de la récupération des matchs" });
+    }
+};
+
+exports.getAllTournaments = async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT
+                t.id,
+                t.name,
+                t.game,
+                t.description,
+                t.start_date,
+                t.created_by,
+                COALESCE(u.username, 'unknown') AS creator,
+                t.created_at,
+                t.status,
+                t.elo_min AS eloMin,
+                t.elo_max AS eloMax,
+                t.max_teams AS maxTeams
+            FROM tournaments t
+                     LEFT JOIN users u ON t.created_by = u.id
+            ORDER BY t.created_at DESC;
+
+        `);
+
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Erreur lors de la récupération des tournois :', error);
+        res.status(500).json({ error: "Erreur serveur lors de la récupération des tournois." });
     }
 };
 

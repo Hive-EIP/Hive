@@ -346,3 +346,35 @@ exports.deleteTeam = async (req, res) => {
         res.status(500).json({ error: "Erreur serveur" });
     }
 };
+
+exports.getTeamMembers = async (req, res) => {
+    const teamId = req.params.teamId;
+
+    try {
+        const { rows } = await pool.query(`
+      SELECT u.id, u.username, u.profile_picture_url, tm.role, tm.joined_at
+      FROM team_members tm
+      JOIN users u ON u.id = tm.user_id
+      WHERE tm.team_id = $1
+    `, [teamId]);
+
+        res.status(200).json(rows);
+    } catch (err) {
+        console.error('Erreur lors de la récupération des membres de l’équipe :', err);
+        res.status(500).json({ error: "Erreur lors de la récupération des membres." });
+    }
+};
+
+exports.getTeamById = async (req, res) => {
+    const { teamId } = req.params;
+    try {
+        const result = await pool.query('SELECT * FROM teams WHERE id = $1', [teamId]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Team not found' });
+        }
+        res.status(200).json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erreur lors de la récupération de la team' });
+    }
+};

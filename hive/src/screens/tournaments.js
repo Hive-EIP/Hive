@@ -15,10 +15,25 @@ function Tournaments() {
 
   useEffect(() => {
     const fetchMyTeam = async () => {
+        const token = localStorage.getItem('access_token');
+        if (!token) {
+            console.warn("Pas de token trouvé");
+            setLoading(false);
+            return;
+        }
       try {
-        const res = await fetch('http://localhost:4000/teams/my-team');
-        const data = await res.json();
-        setMyTeamId(data.teamId);
+          const res = await fetch('http://localhost:4000/teams/my-team', {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              },
+          });
+
+          if (!res.ok) {
+              throw new Error(`Erreur HTTP ${res.status}`);
+          }
+          const data = await res.json();
+          console.log("teamId :", data[0]?.id);
+          setMyTeamId(data[0]?.id || null);
       } catch (err) {
         console.error('Erreur lors de la récupération de la team personnelle :', err);
       } finally {
@@ -78,9 +93,18 @@ function Tournaments() {
           boxSizing: 'border-box',
           gap: '5%',
         }}>
-            <TournamentList title="Global tournaments" apiUrl={`http://localhost:4000/tournaments/global`} />
-            <TournamentList title="Subscribed tournaments" apiUrl={`http://localhost:4000/tournaments/${myTeamId}/my`} />
-          </div>
+            <TournamentList title="Global tournaments"
+                            apiUrl={`http://localhost:4000/tournaments/global`}
+            />
+           {myTeamId !== null && (
+               <TournamentList
+                   title="Subscribed tournaments"
+                   apiUrl={`http://localhost:4000/tournaments/registered/${myTeamId}`}
+                   extractFromField="tournaments"
+               />
+           )}
+
+       </div>
       <div className="bottom-page-teams"></div>
     </div>
   );

@@ -7,7 +7,12 @@ const TeamPresentationCard = ({ teamId, image, name, game, description, status }
   useEffect(() => {
     const fetchMyTeam = async () => {
       try {
-        const res = await fetch('http://localhost:4000/teams/my-team');
+        const token = localStorage.getItem('access_token');
+        const res = await fetch('http://localhost:4000/teams/my-team', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
         const data = await res.json();
         setMyTeamId(data.teamId);
       } catch (err) {

@@ -13,6 +13,7 @@ import Teams from "./screens/teams";
 import TeamPage from "./screens/teamPage";
 import Tournaments from "./screens/tournaments";
 import TournamentPage from "./screens/tournamentPage";
+import ResetPassword from "./screens/resetPassword";
 
 function App() {
   return (
@@ -20,11 +21,12 @@ function App() {
       <Routes>
         <Route index element={<Login/>}/>
         <Route path="/login" element={<Login/>}/>
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/home" element={<Home/>}/>
         <Route path="/tournaments" element={<Tournaments/>}/>
         <Route path="/tournamentPage" element={<TournamentPage/>}/>
         <Route path="/teams" element={<Teams/>}/>
-        <Route path="/teamPage" element={<TeamPage/>}/>
+        <Route path="/teamPage/:id" element={<TeamPage/>}/>
         <Route path="/signUp" element={<SignUp/>}/>
         <Route path="/forget" element={<Forget/>}/>
         <Route path="/admin" element={<Admin/>}/>
