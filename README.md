@@ -125,5 +125,3 @@ Success criteria for the beta test:
 ## **5. Conclusion**
 
 The purpose of this Beta Test Plan is to validate the core features of Hive before its public launch. The team expects detailed feedback regarding the user interface, system performance, and integration of key features. Testers will be encouraged to report bugs and suggest improvements for a better user experience. The success of this phase will allow us to fix any remaining issues before the official release.
-
-
