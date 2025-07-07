@@ -1,0 +1,85 @@
+.top-page-forget {
+    display: flex;
+    flex: 0.5;
+    background-color: var(--background);
+}
+
+.middle-page-forget {
+    display: flex;
+    flex: 2;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background);
+}
+
+.id-container-forget {
+    width: 25%;
+    height: auto;
+    min-width: 300px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary);
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.logo-forget {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 16px;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.arrow-icon {
+    position: absolute;
+    left: 0;
+    margin-left: 1em;
+}
+  
+.logo-signup img {
+    margin: 0 auto;
+}
+
+.credentials-container-forget {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+}
+
+.input-forget {
+    width: 90%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.submit-container-forget {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.bottom-page-forget {
+    display: flex;
+    flex: 0.5;
+    background-color: var(--background);
+}

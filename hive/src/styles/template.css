@@ -1,0 +1,229 @@
+:root {
+    --background: #1d1d20;
+    --primary: #6366f1;
+    --secondary: #fbec5d;
+    --tertiary : #E6CCB2 ;
+    --elements: #D5AD86;
+    --hover: #7ec6fd;
+    --focus: #ff416c;
+    --text: #fff;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+}
+
+/* Font */
+
+@font-face {
+    font-family: "Kanit"; /* Nom personnalisé */
+    src: url("../assets/fonts/Kanit-Regular.ttf") format("truetype"); /* Chemin relatif */
+}
+
+/* Container */
+
+.basic-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    overflow-x: hidden;
+    font-family: Kanit;
+    flex-direction: column;
+    flex-wrap: wrap;
+    background-color: var(--background);
+}
+
+.input-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+/* Buttons */
+
+.submit-25 {
+    width: 25%;
+    height: 50px;
+    border-radius: 10px;
+    background-color: var(--secondary);
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: Kanit;
+    transition: .3s;
+}
+
+.submit-50 {
+    width: 50%;
+    height: 50px;
+    border-radius: 10px;
+    background-color: var(--secondary);
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: Kanit;
+    transition: .3s;
+}
+
+.submit-100 {
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    background-color: var(--secondary);
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: Kanit;
+    transition: .3s;
+}
+
+.submit-25:hover {
+    width: 30%;
+    background-color: var(--hover);
+    border: none;
+    transition: .3s;
+}
+
+.submit-50:hover {
+    width: 60%;
+    background-color: var(--hover);
+    border: none;
+    transition: .3s;
+}
+
+/* Inputs */
+
+.input-50 {
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.input-30P {
+    width: 30%;
+    height: 50px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: .3s;
+}
+
+input:focus {
+    outline: 2px solid var(--focus);
+}
+
+/* Navbar */
+
+.navbar {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+    background-color: var(--primary);
+}
+
+.navbar-left {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2em;
+    margin-left: 1em;
+}
+
+.navbar-right {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 1em;
+    margin-right: 1em;
+}
+
+.nav-icon {
+  display: none;
+}
+
+/* Icons */
+
+.icon {
+    width: 24px;
+    height: 24px;
+    transition: 0.3s ease;
+    cursor: pointer;
+    color: #CCCCCC;
+}
+
+.icon:hover {
+    transform: scale(1.5);
+}
+
+.arrow-icon:hover {
+    color: #ffffff;
+    transition: .3s;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar-left {
+        margin-left: 0.5rem;
+        gap: 1rem;
+    }
+
+    .navbar-right {
+        margin-right: 0.5rem;
+    }
+  
+    .nav-text {
+        display: none;
+    }
+    
+    .nav-icon {
+        display: inline;
+    }
+    
+    .nav-button {
+        width: 50px;
+        justify-content: center;
+    }
+    
+    .navbar-left img {
+        width: 40px !important;
+        height: 40px !important;
+    }
+    
+    .input-30P {
+        width: 160px !important;
+        height: 40px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+  
+    .navbar-left {
+        gap: 1rem;
+    }
+    
+    .navbar-right {
+        gap: 0.5rem;
+    }
+    
+    .input-30P {
+        width: 120px;
+    }
+    
+    .nav-button {
+        min-width: 35px;
+    }
+}

@@ -1,0 +1,112 @@
+.top-page-login {
+    display: flex;
+    flex: 0.5;
+    background-color: var(--background);
+}
+
+.middle-page-login {
+    display: flex;
+    flex: 2;
+    background-color: var(--background);
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.middle-left-login {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--background);
+}
+
+.id-container-login {
+    display: flex;
+    width: 25%;
+    min-width: 300px;
+    min-height: 300px;
+    height: auto;
+    flex-direction: column;
+    background-color:var(--primary);
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.upper-container-login {
+    display: flex;
+    width: 100%;
+    height: 25%;
+    justify-content: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.bottom-container-login {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 15px;
+}
+
+.data-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 15px;
+}
+
+.id-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 50%;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.label-div-login {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+}
+
+.input-login {
+    width: 90%;
+    height: 55px;
+    border-radius: 10px;
+    border: none var(--primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.links-login {
+    display: flex;
+    width: 90%;
+    flex-direction: row;
+    justify-content: space-between;
+    text-decoration: underline;
+    color: inherit;
+}
+
+.submit-login {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 1em;
+    margin-bottom: 1em;
+}
+
+
+.bottom-page-login {
+    display: flex;
+    flex: 0.5;
+    background-color: var(--background);
+}
