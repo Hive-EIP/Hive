@@ -17,8 +17,16 @@ const CreateTeamForm = ({onSubmit, onClose}) => {
   useEffect(() => {
     const fetchPlayers = async () => {
       try {
-        const res = await fetch('http://localhost:4000/players/', { method: 'GET' });
+        const token = localStorage.getItem("access_token");
+        const res = await fetch('http://localhost:4000/users/all', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        });
         const data = await res.json();
+        console.log("📦 Données reçues depuis /users/all :", data);
         setPlayers(data);
       } catch (err) {
         console.error("Erreur lors du chargement des joueurs :", err);
@@ -31,31 +39,35 @@ const CreateTeamForm = ({onSubmit, onClose}) => {
   const handleCreate = async (e) => {
     e.preventDefault();
 
-    const teamData = {
-      name,
-      description,
-      country: nationality,
-      game,
-      players,
-      points: totalPoints(players),
-      logo: logoBase64,
-    };
+    const token = localStorage.getItem("access_token");
 
     try {
-      const meRes = await fetch('http://localhost:4000/me');
-      const meData = await meRes.json();
-      const teamId = meData.teamId;
+      if (!token) {
+        console.error("❌ Aucun token trouvé dans le localStorage !");
+        return;
+      }
 
-      const res = await fetch(`http://localhost:4000/teams/${teamId}/create`, {
+      const teamData = {
+        name,
+        description,
+        //country: nationality,
+        tag: game,
+        //players,
+        //points: totalPoints(players),
+        //logo: logoBase64
+      };
+
+      const res = await fetch(`http://localhost:4000/teams/create`, {
         method: 'POST',
         headers: {
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(teamData)
       });
 
       if (res.ok) {
-        console.log("Équipe créée avec succès !");
+        console.log("✅ Équipe créée avec succès !");
         onClose();
       } else {
         console.error("Erreur lors de la création :", await res.text());
@@ -64,6 +76,7 @@ const CreateTeamForm = ({onSubmit, onClose}) => {
       console.error("Erreur réseau :", error);
     }
   };
+
 
   return (
     <form onSubmit={handleCreate} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -94,8 +107,8 @@ const CreateTeamForm = ({onSubmit, onClose}) => {
             style={inputStyle}
           >
             <option>Game</option>
-            <option>League of Legends</option>
-            <option>Fortnite</option>
+            <option value="Lol">League of Legends</option>
+            <option value="FN">Fortnite</option>
           </select>
         </div>
 
