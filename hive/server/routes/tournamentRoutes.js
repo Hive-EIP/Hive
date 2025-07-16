@@ -10,6 +10,8 @@ const {
     openTournament,
     deleteTournament,
     getAllTournaments,
+    getTeamsForTournament,
+    unregisterTeamFromTournament,
 } = require('../controllers/tournamentController');
 
 const authenticateToken = require('../middlewares/auth');
@@ -21,11 +23,13 @@ router.post('/:id/generate-matches', authenticateToken, authorizeRole(['admin', 
 router.post('/matches/:id/winner', authenticateToken, authorizeRole(['admin', 'moderator']), declareWinner);
 
 router.get('/registered/:teamId', authenticateToken, getRegisteredTournaments);
+router.get('/:id/teams', authenticateToken, getTeamsForTournament);
 router.get('/:id/matches', authenticateToken, getTournamentMatches);
 router.get('/global', authenticateToken, getAllTournaments);
 
 router.patch('/:id/open', authenticateToken, authorizeRole(['admin', 'moderator']), openTournament);
 
 router.delete('/:id', authenticateToken, authorizeRole(['admin', 'moderator']), deleteTournament);
+router.delete('/:id/unregister', authenticateToken, unregisterTeamFromTournament);
 
 module.exports = router;

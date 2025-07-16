@@ -12,21 +12,8 @@ const TeamCard = ({ name, country, points, description, selected, game, logoUrl,
             : null;
 
     return (
-        <div
-            onClick={() => navigate(`/teamPage/${team.id}`)}
-            style={{
-                cursor: 'pointer',
-                backgroundColor: '#f4d2ad',
-                borderRadius: '12px',
-                padding: '16px',
-                width: '240px',
-                fontFamily: 'sans-serif',
-                color: '#5a3e2b',
-                position: 'relative',
-                boxShadow: selected ? '0 0 0 2px #8c6b4f' : 'none'
-            }}
-        >
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}>
+        <div className="team-card" onClick={() => navigate(`/teamPage/${team.id}`)}>
+            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
                 {logoUrl ? (
                     <img
                         src={logoUrl}
@@ -37,31 +24,21 @@ const TeamCard = ({ name, country, points, description, selected, game, logoUrl,
                     <div style={{
                         width: '40px',
                         height: '40px',
-                        backgroundColor: '#d6a77a',
+                        backgroundColor: '#333',
                         borderRadius: '8px',
                         marginRight: '10px'
                     }} />
                 )}
                 <div style={{ flex: 1 }}>
-                    <div style={{ fontWeight: 'bold' }}>{name}</div>
-                    <div style={{ fontSize: '14px' }}>{country} - {points} RK</div>
+                    <h3>{name}</h3>
+                    <p>{country} - {points} RK</p>
                 </div>
                 {badgeUrl && (
-                    <img src={badgeUrl} alt="badge" style={{ width: 16, height: 16 }} />
+                    <img src={badgeUrl} alt="badge" style={{ width: 18, height: 18 }} />
                 )}
-                <span style={{
-                    position: 'absolute',
-                    top: 8,
-                    right: 8,
-                    fontSize: 16
-                }}>
-          {selected ? '✔' : 'X'}
-        </span>
             </div>
-            <hr style={{ border: 'none', borderTop: '1px solid #d6a77a', marginBottom: 8 }} />
-            <div style={{ fontSize: '14px' }}>
-                {description}
-            </div>
+            <p>{description}</p>
+            <button className="team-button">View</button>
         </div>
     );
 };

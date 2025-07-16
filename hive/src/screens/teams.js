@@ -73,12 +73,12 @@ return (
       </div>
     </div>
     <div className="bottom-page-teams">
-      <button className="modal-page" onClick={() => setShowCreateModal(true)}>Create a team</button>
+        <button className="create-team-button" onClick={() => setShowCreateModal(true)}>🚀 Create a Team</button>
           {showCreateModal && (
-          <ModalPage onClose={() => setShowCreateModal(false)}>
-              <h2>Create your team</h2>
-              <CreateTeamForm onSubmit={handleSubmit} onClose={() => setShowCreateModal(false)} />
-          </ModalPage>
+              <ModalPage onClose={() => setShowCreateModal(false)}>
+                  <CreateTeamForm onSubmit={handleSubmit} onClose={() => setShowCreateModal(false)} />
+              </ModalPage>
+
           )}
       </div>
   </div>

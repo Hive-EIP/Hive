@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getProfile, getAllUsers } = require('../controllers/userController');
+const { getProfile, getAllUsers, getEligiblePlayers } = require('../controllers/userController');
 const authMiddleware = require('../middlewares/auth');
 const authorizeRole = require('../middlewares/authorizeRole');
 
@@ -19,5 +19,7 @@ router.get('/player-only', authMiddleware, authorizeRole(['player']), (req, res)
 });
 
 router.get('/all', authMiddleware, getAllUsers);
+router.get('/:teamId/candidates', authMiddleware, getEligiblePlayers);
+
 
 module.exports = router;

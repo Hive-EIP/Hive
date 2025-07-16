@@ -1,0 +1,136 @@
+.bracket-container {
+    padding: 40px;
+    min-height: 100vh;
+    background: #0f0e1a;
+    overflow-x: auto;
+    position: relative;
+}
+
+.bracket-wrapper {
+    display: flex;
+    position: relative;
+    align-items: flex-start;
+}
+
+.bracket-column {
+    display: flex;
+    flex-direction: column;
+    margin-right: 140px;
+    position: relative;
+    z-index: 2;
+    width: 260px;
+}
+
+.bracket-column:not(:first-child) {
+    justify-content: center;
+}
+
+.bracket-round {
+    color: #ff3c87;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.match-box {
+    background: rgba(20, 20, 30, 0.95);
+    border: 2px solid #a94fff;
+    border-radius: 16px;
+    padding: 16px;
+    margin-bottom: 60px; /* Augmenté pour espacement */
+    box-shadow: 0 0 20px rgba(180, 90, 255, 0.4);
+    width: 260px;
+    position: relative;
+    min-height: 110px; /* augmenté */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+
+.match-title {
+    color: white;
+    font-weight: bold;
+    margin-bottom: 10px;
+    white-space: normal;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    font-size: 14px;
+}
+
+
+
+.vs {
+    font-weight: bold;
+    font-size: 12px;
+    display: block;
+    color: #888;
+    margin: 4px 0;
+}
+
+.ellipsis {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.winner-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.winner-buttons button {
+    background: #84f68b;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.winner-buttons button:hover {
+    transform: scale(1.05);
+    background-color: #a3fcb1;
+}
+
+.winner-label {
+    font-size: 13px;
+    color: #00ff94;
+    font-weight: bold;
+}
+
+.bracket-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.bracket-empty {
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+.bracket-column:not(:first-child) {
+    margin-top: 60px;
+}
+
+/* Style pour les lignes avec effet de lueur */
+.bracket-svg line {
+    filter: drop-shadow(0 0 4px #e544ec);
+}
