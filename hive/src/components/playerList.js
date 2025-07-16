@@ -43,25 +43,18 @@ const PlayerList = ({ players }) => {
     const displayedPlayers = [...selectedPlayers, ...defaultPlayers];
 
     return (
-        <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+        <div className="player-list-container">
+            <div className="search-bar">
+                <span role="img" aria-label="search">🔍</span>
                 <input
                     type="text"
-                    placeholder="🔍 Rechercher"
+                    placeholder="Rechercher"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     onFocus={() => setSearchFocused(true)}
                     onBlur={() => setTimeout(() => setSearchFocused(false), 150)}
-                    style={{
-                        backgroundColor: '#f6e8da',
-                        borderRadius: '20px',
-                        padding: '6px 12px',
-                        border: 'none',
-                        outline: 'none',
-                        width: '200px',
-                    }}
                 />
-                <span style={{ color: '#5c4635', fontWeight: 500, paddingLeft: '50%' }}>
+                <span style={{ color: '#ff8fa3', fontWeight: 500, marginLeft: 'auto' }}>
           Current rank : {totalPoints(selectedPlayers)} points
         </span>
             </div>
@@ -69,12 +62,13 @@ const PlayerList = ({ players }) => {
             {searchFocused && filteredPlayers.length > 0 && (
                 <div
                     style={{
-                        backgroundColor: '#f4d2ad',
-                        borderRadius: '8px',
+                        backgroundColor: '#1e1e2f',
+                        borderRadius: '12px',
                         padding: '8px',
                         marginBottom: '12px',
                         maxHeight: '150px',
                         overflowY: 'auto',
+                        boxShadow: 'inset 0 0 8px rgba(255,0,110,0.2)',
                     }}
                 >
                     {filteredPlayers.map((player, index) => (
@@ -82,11 +76,16 @@ const PlayerList = ({ players }) => {
                             key={index}
                             onClick={() => handleAddPlayer(player)}
                             style={{
-                                padding: '6px',
+                                padding: '8px',
                                 cursor: 'pointer',
-                                borderRadius: '4px',
-                                backgroundColor: '#fbe2c2',
+                                borderRadius: '8px',
+                                backgroundColor: '#2b2b40',
+                                marginBottom: '6px',
+                                color: '#fff',
+                                transition: 'background 0.2s ease',
                             }}
+                            onMouseOver={(e) => e.currentTarget.style.background = '#3c3c5e'}
+                            onMouseOut={(e) => e.currentTarget.style.background = '#2b2b40'}
                         >
                             {player.username} – {player.points || 0} pts
                         </div>
@@ -95,35 +94,28 @@ const PlayerList = ({ players }) => {
             )}
 
             {searchFocused && filteredPlayers.length === 0 && (
-                <div style={{ color: '#a33', fontWeight: 'bold', padding: '8px' }}>
-                    Impossible de charger les données d’utilisateurs ou aucun joueur trouvé.
+                <div style={{ color: '#ff006e', fontWeight: 'bold', padding: '8px' }}>
+                    Aucun joueur trouvé.
                 </div>
             )}
 
-            <div
-                style={{
-                    backgroundColor: '#f6e8da',
-                    padding: '12px',
-                    borderRadius: '12px',
-                    display: 'flex',
-                    gap: '16px',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                    width: '100%',
-                }}
-            >
+            <div style={{
+                display: 'flex',
+                gap: '16px',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                marginTop: '16px',
+                justifyContent: 'center'
+            }}>
                 {displayedPlayers.map((player, i) => (
-                    <div key={i} style={{ textAlign: 'center' }}>
+                    <div key={i} className="player-item">
                         <img
                             src={player.picture}
                             alt="player"
-                            style={{ width: 60, height: 60, borderRadius: '50%' }}
                         />
-                        <div style={{ fontSize: '12px' }}>
-                            {player.username}<br />
-                            {player.rank}<br />
-                            {player.points} points
-                        </div>
+                        <div>{player.username}</div>
+                        <div>{player.rank}</div>
+                        <div>{player.points} pts</div>
                     </div>
                 ))}
             </div>

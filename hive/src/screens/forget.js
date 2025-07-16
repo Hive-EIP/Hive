@@ -1,6 +1,4 @@
-// pages/Forget.js
-// src/screens/forget.js
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import '../styles/forget.css';
 import Logo from "../assets/images/hiveLogo.png";
 import { FaArrowLeft } from "react-icons/fa";
@@ -10,17 +8,27 @@ function Forget() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const navigation = useNavigate();
+  const recaptchaRendered = useRef(false); // ✅ Track rendering
+
+  useEffect(() => {
+    const loadCaptcha = () => {
+      if (window.grecaptcha && window.grecaptcha.render && !recaptchaRendered.current) {
+        window.grecaptcha.render('recaptcha-container', {
+          sitekey: '6LdiwG8rAAAAAOY2n0yUBxuQIVdsQJWEvt65EDq1',
+        });
+        recaptchaRendered.current = true;
+      } else if (!window.grecaptcha || !window.grecaptcha.render) {
+        setTimeout(loadCaptcha, 500); // Retry if not ready
+      }
+    };
+
+    loadCaptcha();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Vérifie que grecaptcha est prêt
-    if (!window.grecaptcha || !window.grecaptcha.getResponse) {
-      alert("Le reCAPTCHA n'est pas encore prêt. Veuillez réessayer dans quelques secondes.");
-      return;
-    }
-
-    const captchaToken = window.grecaptcha.getResponse();
+    const captchaToken = window.grecaptcha?.getResponse();
 
     if (!captchaToken) {
       alert("Veuillez remplir le CAPTCHA !");
@@ -30,9 +38,7 @@ function Forget() {
     try {
       const response = await fetch('http://localhost:4000/auth/forgot-password', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, captchaToken })
       });
 
@@ -50,8 +56,8 @@ function Forget() {
         <div className="middle-page-forget">
           <div className="id-container-forget">
             <div className="logo-forget">
-              <FaArrowLeft className="arrow-icon" style={{width: "24px", height: "24px"}} onClick={() => navigation(-1)}/>
-              <img alt="logo" src={Logo} style={{width: "100px", height: "100px"}} />
+              <FaArrowLeft className="arrow-icon" style={{ width: "24px", height: "24px" }} onClick={() => navigation(-1)} />
+              <img alt="logo" src={Logo} style={{ width: "100px", height: "100px" }} />
             </div>
 
             <form className="credentials-container-forget" onSubmit={handleSubmit}>
@@ -68,7 +74,7 @@ function Forget() {
                   />
                 </div>
 
-                <div className="g-recaptcha" data-sitekey="6LdiwG8rAAAAAOY2n0yUBxuQIVdsQJWEvt65EDq1"></div>
+                <div id="recaptcha-container" className="g-recaptcha"></div>
               </div>
 
               <hr style={{ width: "90%", borderTop: "1px solid", borderColor: "#000000" }} />
@@ -81,6 +87,7 @@ function Forget() {
           </div>
         </div>
         <div className="bottom-page-forget"></div>
+        <p className="slogan">“Where solo players become legends.”</p>
       </div>
   );
 }

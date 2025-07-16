@@ -60,7 +60,16 @@ exports.login = async (req, res) => {
             ? 'Bienvenue EL PHENOMENO DESTRUCTEUR DES MONDES, LE GOAT DES ÉCHECS ET DU TAROT'
             : 'Connexion réussie ✅';
 
-        res.json({ message: customMessage, token });
+        res.json({
+            message: customMessage,
+            token,
+            user: {
+                id: user.id,
+                username: user.username,
+                email: user.email,
+                role: user.role
+            }
+        });
     } catch (err) {
         res.status(500).json({ error: "Erreur serveur", detail: err.message });
     }

@@ -1,0 +1,144 @@
+/* === Create Team Modal (esport-style) === */
+@keyframes modalPop {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-page {
+    background: rgba(30, 20, 40, 0.95);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 0 30px rgba(255, 0, 92, 0.2);
+    animation: modalPop 0.5s ease-out;
+    max-width: 960px;
+    margin: auto;
+    font-family: "Kanit";
+    color: #fff;
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 0, 92, 0.1);
+}
+
+.modal-page h2 {
+    font-size: 1.8rem;
+    color: #ff006e;
+    margin-bottom: 16px;
+}
+
+.modal-page input,
+.modal-page select,
+.modal-page textarea {
+    background: #1e1e2f;
+    border: 1px solid #ff006e;
+    border-radius: 12px;
+    padding: 10px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+}
+
+.modal-page textarea {
+    resize: none;
+    min-height: 140px;
+}
+
+.modal-page .player-list-container {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    padding: 16px;
+    overflow-y: visible;
+    box-shadow: inset 0 0 10px rgba(255, 0, 92, 0.05);
+}
+
+
+.modal-page .search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.modal-page .search-bar input {
+    flex-grow: 1;
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: none;
+    background-color: #1a1a2b;
+    color: #fff;
+    font-size: 0.9rem;
+}
+
+.modal-page .player-item {
+    display: inline-block;
+    text-align: center;
+    margin: 8px;
+    font-size: 0.75rem;
+    color: #ccc;
+}
+
+.modal-page .player-item img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid #444;
+    object-fit: cover;
+    margin-bottom: 4px;
+}
+
+.modal-page .create-button {
+    background: #ff006e;
+    border: none;
+    border-radius: 14px;
+    padding: 12px 28px;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-weight: bold;
+    margin-top: 24px;
+}
+
+.modal-page .create-button:hover {
+    background: #ff3f8f;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: rgba(30, 20, 40, 0.95);
+    border: 1px solid rgba(255, 0, 92, 0.2);
+    padding: 32px;
+    border-radius: 24px;
+    max-width: 960px;
+    width: 90%;
+    position: relative;
+    box-shadow: 0 0 30px rgba(255, 0, 92, 0.25);
+    backdrop-filter: blur(16px);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+}

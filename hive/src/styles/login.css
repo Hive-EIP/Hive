@@ -1,112 +1,234 @@
-.top-page-login {
-    display: flex;
-    flex: 0.5;
-    background-color: var(--background);
+:root {
+    --primary: #1b1e2f;
+    --secondary: #2b2e4a;
+    --accent: #ff005c;
+    --accent-hover: #ff3377;
+    --text: #f0f0f0;
+    --background: #11121a;
+    --input-bg: #1e2030;
+    --button-gap: 40px;
+    --hero-background: radial-gradient(circle at center, #4d0000 0%, #1c0000 60%, #000000 100%);
 }
 
-.middle-page-login {
-    display: flex;
-    flex: 2;
-    background-color: var(--background);
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
+body, html {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.middle-left-login {
+.background-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--hero-background);
+    z-index: -1;
+}
+
+#tsparticles canvas {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    z-index: 0 !important;
+}
+
+.basic-container {
+    min-height: 100vh;
     display: flex;
-    flex: 1;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: var(--background);
+    background-color: transparent;
+    position: relative;
+    z-index: 1;
+}
+
+.slogan {
+    position: absolute;
+    bottom: 3%;
+    left: 5%;
+    font-size: 1.2em;
+    font-family: 'Kanit', sans-serif;
+    opacity: 0;
+    animation: fadeIn2 3s ease-in forwards;
+    text-shadow: 0 0 10px rgba(255, 0, 255, 0.2);
+}
+@keyframes fadeIn2 {
+    to {
+        opacity: 1;
+    }
 }
 
 .id-container-login {
-    display: flex;
-    width: 25%;
-    min-width: 300px;
-    min-height: 300px;
-    height: auto;
-    flex-direction: column;
-    background-color:var(--primary);
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.upper-container-login {
-    display: flex;
-    width: 100%;
-    height: 25%;
-    justify-content: center;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
-.bottom-container-login {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    flex-direction: column;
-    border-radius: 15px;
-}
-
-.data-login {
+    width: 400px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(255, 0, 102, 0.4);
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%;
-    width: 100%;
-    border-radius: 15px;
+    background-color: rgba(30, 30, 46, 0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px); /* pour Safari */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.upper-container-login img {
+    width: 90px;
+    height: 90px;
+}
+
+.label-login {
+    align-self: flex-start;
+    color: var(--text);
+    font-weight: bold;
+    margin-left: 5%;
+    margin-bottom: 0.6em;
+    font-size: 14px;
 }
 
 .id-login {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    height: 50%;
-    margin-top: 1em;
-    margin-bottom: 1em;
-}
-
-.label-div-login {
-    width: 90%;
-    display: flex;
-    flex-direction: row;
 }
 
 .input-login {
     width: 90%;
-    height: 55px;
+    padding: 14px 16px;
+    margin-bottom: 1.2em;
     border-radius: 10px;
-    border: none var(--primary);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: none;
+    background-color: var(--input-bg);
+    color: var(--text);
+    font-size: 14px;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+    transition: all 0.2s ease;
+}
+
+.input-login:focus {
+    outline: none;
+    box-shadow: 0 0 10px var(--accent);
+}
+
+hr {
+    width: 112.5%;
+    transform: translateX(-6.25%);
+    border: 0;
+    height: 1px;
+    background-color: #444;
+    margin: 1.5em 0 1.2em 0;
 }
 
 .links-login {
     display: flex;
-    width: 90%;
-    flex-direction: row;
     justify-content: space-between;
-    text-decoration: underline;
-    color: inherit;
+    width: 112.5%;
+    transform: translateX(-6.25%);
+    margin-bottom: 1.2em;
+    column-gap: var(--button-gap);
 }
 
-.submit-login {
-    width: 100%;
-    height: 100%;
+.link-button {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    margin: 1em;
-    margin-bottom: 1em;
+    padding: 10px 0;
+    background-color: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 13px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    text-align: center;
 }
 
+.link-button:hover {
+    background-color: var(--accent);
+    color: white;
+    box-shadow: 0 0 8px var(--accent);
+}
 
-.bottom-page-login {
+.submit-login {
     display: flex;
-    flex: 0.5;
-    background-color: var(--background);
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 0.8em;
+}
+
+.submit-login button {
+    background: var(--accent);
+    color: white;
+    padding: 13px 35px;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 0, 92, 0.6);
+    transition: all 0.3s ease;
+    margin-top: 0.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.submit-login button:hover {
+    transform: scale(1.07);
+    box-shadow: 0 0 20px var(--accent), 0 0 30px var(--accent-hover);
+}
+
+.submit-login a {
+    color: #ccc;
+    font-size: 12px;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.submit-login a:hover {
+    color: #fff;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulseGlow {
+    0%, 100% {
+        box-shadow: 0 0 25px rgba(255, 0, 92, 0.35);
+    }
+    50% {
+        box-shadow: 0 0 45px rgba(255, 0, 92, 0.6);
+    }
+}
+
+.id-container-login {
+    animation: fadeIn 0.8s ease, pulseGlow 4s ease-in-out infinite;
+}
+
+.upper-container-login img:hover {
+    filter: drop-shadow(0 0 8px var(--accent));
+    transition: filter 0.3s ease;
+}
+
+@media (max-width: 480px) {
+    .id-container-login {
+        width: 90%;
+        padding: 2em 1.2em;
+    }
+
+    .links-login {
+        flex-direction: column;
+        gap: 1em;
+    }
 }

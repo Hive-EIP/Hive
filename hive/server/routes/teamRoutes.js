@@ -9,6 +9,7 @@ router.post('/:teamId/invite', authMiddleware, teamController.inviteToTeam);
 router.post('/create', authMiddleware, teamController.createTeam);
 router.post('/invitations/:invitationId/respond', authMiddleware, teamController.respondToInvitation);
 
+router.get('/notifications', authMiddleware, teamController.getNotifications);
 router.get('/', teamController.getAllTeams);
 router.get('/my-team', authMiddleware, teamController.getMyTeams);
 router.get('/invitations', authMiddleware, teamController.getInvitations);
