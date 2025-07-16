@@ -1,318 +1,220 @@
-.top-page-profile, .bottom-page-profile{
-    width: 100%;
-    display: flex;
-    flex: 0 0 auto; /* Taille fixe, pas de croissance */
-    min-height: 50px;
+/* ======== PAGE PROFILE ======== */
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Kanit', sans-serif;
+    background: transparent;
+    color: white;
 }
 
+/* Layout général */
 .middle-page-profile {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1em;
-    flex: 1 1 auto; /* Prend l'espace restant */
-    padding: 1em 0;
+    padding: 120px 0 60px;
+    gap: 2em;
     box-sizing: border-box;
-    max-height: calc(100vh - 100px); /* Ajuste selon la hauteur de top/bottom */
-    overflow-y: auto; /* Scroll si le contenu dépasse */
-    overflow-x: hidden; /* Empêche le débordement horizontal */
-    color: #000;
-    scroll-behavior: smooth;
 }
 
+/* Cartes Glassmorphism */
 .profile-main-info,
 .profile-stats,
 .profile-highlight {
-    width: 75%;
+    width: 90%;
     max-width: 1200px;
-    min-height: 200px; /* Hauteur minimale réduite */
-    display: flex;
-    flex-direction: column;
-    background-color: var(--primary);
-    padding: 1em;
-    border-radius: 10px;
-    box-sizing: border-box;
-    
-    /* PERMETTRE L'ADAPTATION AU CONTENU */
-    height: auto; /* S'adapte au contenu */
-    flex-shrink: 0; /* Ne se réduit pas automatiquement */
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(20px);
+    border-radius: 18px;
+    box-shadow: 0 0 20px rgba(255, 0, 60, 0.3);
+    padding: 2em;
+    border: 1px solid rgba(255, 0, 60, 0.4);
+    transition: all 0.3s ease;
 }
 
+/* Header info */
 .profile-info-container {
-    width: 100%;
     display: flex;
-    flex-direction: row;
-    flex-shrink: 0; /* Garde sa taille naturelle */
-}
-
-.profile-info-container {
+    gap: 1.5em;
+    align-items: center;
     position: relative;
-}
-
-.profile-action {
-    position: absolute;
-    top: 0.5em;
-    right: 0.5em;
-}
-
-.gear-button, .add-team-button {
-    background-color: var(--tertiary);
-    height: 50px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 1em;
-    color: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: .3s;
-}
-
-.gear-button:hover,
-.add-team-button:hover {
-    background-color: var(--hover);
-}
-
-
-.profile-pic-container {
-    display: flex;
-    flex: 0 0 120px;
-    justify-content: center;
-    align-items: center;
+    flex-wrap: wrap;
 }
 
 .profile-pic {
     width: 120px;
     height: 120px;
-    border: 1px solid;
     border-radius: 50%;
-}
-
-.profile-names-container {
-    display: flex;
-    flex: 1; /* Prend l'espace restant */
-    flex-direction: column;
-    justify-content: center;
-    gap: 1em;
-    padding-left: 1em;
-}
-
-.profile-username {
-    width: fit-content;
-    min-height: 40px; /* Hauteur minimale au lieu de pourcentage */
-    background-color: var(--tertiary);
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5em 1em;
-}
-
-.username {
-    margin: 0; /* Retire les marges par défaut du h3 */
+    object-fit: cover;
+    border: 2px solid #ff416c;
 }
 
 .profile-tags {
-    width: fit-content;
-    min-width: 200px;
-    min-height: 40px;
-    background-color: var(--tertiary);
-    border-radius: 15px;
-    padding: 1em;
+    background: rgba(255, 255, 255, 0.08);
+    padding: 0.4em 1em;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9em;
 }
 
+/* Bouton Gear */
+.profile-action {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.gear-button {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.gear-button:hover {
+    background: #ff003c;
+}
+
+/* Description */
 .profile-description {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    margin-top: 2em;
-    flex-shrink: 0; /* Ne se compresse pas */
+    margin-top: 1.5em;
+    font-size: 1em;
+    line-height: 1.4em;
+}
+
+/* BIO box */
+.profile-bio-container {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1em;
+    border-radius: 12px;
+}
+
+/* Champs LoL */
+.input-login {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: white;
+    font-size: 1em;
+    margin-right: 10px;
+}
+
+.input-login:focus {
+    outline: none;
+    border: 1px solid #ff003c;
+}
+
+/* Boutons */
+.profile-username {
+    background: #b81735;
+    padding: 0.5em 1.2em;
+    border-radius: 12px;
+    font-size: 1.4em;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 4px black;
 }
 
 .profile-title {
-    width: fit-content; /* S'adapte au contenu */
-    min-width: 80px;
-    max-height: 40px;
-    margin-bottom: 1em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--tertiary);
-    border-radius: 15px;
-    padding: 0.5em 1em;
+    background: #b81735;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 0.5em;
 }
 
-.profile-bio-container {
-    width: 100%;
-    min-height: 150px; /* Hauteur minimale */
-    border-radius: 15px;
-    background-color: var(--tertiary);
-    /* Permettre l'expansion selon le contenu */
-    height: auto;
-}
-
-.profile-stats-container {
-    width: 100%;
-    min-height: 200px; /* Hauteur minimale */
-    border-radius: 15px;
-    background-color: var(--tertiary);
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-    /* Permettre l'expansion selon le contenu */
-    height: auto;
-}
-
-.profile-rank-container { 
-    width: 95%;
-    height: auto;
-    display: flex;
-    flex-direction: row;
-    align-self: center;
-    justify-self: center;
-    margin-top: 1em;
+.profile-rank-container {
+    color: white;
+    padding: 2px 16px;
     border-radius: 10px;
-    background-color: var(--elements);
+    margin-bottom: 1em;
+    font-weight: bold;
 }
 
-.profile-rank-picture {
+.submit-75 {
+    background: #b81735;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    padding: 8px 14px;
+    height: 30px; /* ⚠️ même hauteur que les inputs */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+    margin-right: 8px;
     display: flex;
-    flex: 0.1;
-    margin-left: 1em;
     align-items: center;
     justify-content: center;
 }
 
-.profile-rank-text {
-    display: flex;
-    flex: 1;
-    margin-left: 1em;
-    align-items: center;
-    justify-content: flex-start;
-    color: #000;
+
+.submit-75:hover {
+    background: #c62828;
 }
+
+/* Statistiques */
 
 .profile-main-stats-container {
-    width: 95%;
-    height: auto;
     display: flex;
-    flex-direction: row;
-    align-self: center;
     justify-content: space-between;
-    justify-self: center;
+    flex-wrap: wrap;
+    gap: 1em;
 }
 
 .profile-main-stats {
-    max-width: 170px;
-    max-height: 80px;
-    height: auto;
-    display: flex;
     flex: 1;
-    flex-direction: column;
+    min-width: 150px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
-    background-color: var(--elements);
+    padding: 1em;
+    font-size: 1.1em;
+    color: white;
 }
 
-.profile-main-stats-title {
-    max-height: 40px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-end;
-    margin-left: 0.5em;
-    margin-top:0.5em;
-}
-
-.profile-main-stats-value {
-    max-height: 30px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-}
-
+/* Vidéo */
 .profile-video-container {
-    width: 100%;
-    min-height: 150px;
-    display: flex;
-    justify-self: center;
-    align-self: center;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--tertiary);
-    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 1em;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .profile-video {
-    margin-top: 1em;
-    margin-bottom: 1em;
+    max-width: 100%;
+    border-radius: 10px;
 }
 
-/* RESPONSIVE */
-@media screen and (max-width: 1024px) {
-    .profile-main-info,
-    .profile-stats,
-    .profile-highlight {
-        width: 85%;
-    }
-
-    .profile-pic {
-        width: 100px;
-        height: 100px;
-    }
-
-    .middle-page-profile {
-        max-height: calc(100vh - 120px);
-    }
-}
-
+/* Responsive */
 @media screen and (max-width: 768px) {
-    .bottom-page-profile {
-        visibility: hidden;
+    .profile-info-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .profile-main-stats-container {
+        flex-direction: column;
+    }
+
+    .profile-action {
+        position: static;
+        margin-top: 1em;
     }
 
     .profile-main-info,
     .profile-stats,
     .profile-highlight {
         width: 95%;
-        z-index: 1;
-    }
-    
-    .profile-info-container {
-        flex-direction: column;
-        text-align: center;
-    }
-    
-    .profile-pic-container {
-        flex: 0 0 auto;
-        margin-bottom: 1em;
-    }
-    
-    .profile-names-container {
-        padding-left: 0;
-        align-items: center;
-    }
-    
-    .profile-username,
-    .profile-tags {
-        width: 100%;
-        max-width: 300px;
-    }
-    
-    .middle-page-profile {
-        max-height: calc(100vh - 200px);
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .profile-main-info,
-    .profile-stats,
-    .profile-highlight {
-        width: 98%;
-    }
-    
-    .middle-page-profile {
-        gap: 0.5em;
-        max-height: calc(100vh - 250px);
     }
 }

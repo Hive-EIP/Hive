@@ -1,188 +1,112 @@
 import React from 'react';
+import '../styles/bracket.css';
 
-function Brackets({ rounds }) {
-  const roundCount = rounds.length;
-  
-  // Calculer la hauteur totale basée sur le premier round
-  const totalHeight = rounds[0]?.length * 120 || 240;
-  
-  const renderConnections = (roundIndex) => {
-    if (roundIndex === roundCount - 1) return null;
-    
-    const currentMatches = rounds[roundIndex];
-    const nextMatches = rounds[roundIndex + 1];
-    
-    return currentMatches.map((_, matchIndex) => {
-      const nextMatchIndex = Math.floor(matchIndex / 2);
-      const isTop = matchIndex % 2 === 0;
-      
-      // Position verticale du match actuel
-      const currentY = (matchIndex + 0.5) * (totalHeight / currentMatches.length);
-      // Position verticale du match suivant
-      const nextY = (nextMatchIndex + 0.5) * (totalHeight / nextMatches.length);
-      
-      return (
-        <svg
-          key={`connection-${roundIndex}-${matchIndex}`}
-          style={{
-            position: 'absolute',
-            left: '220px',
-            top: 0,
-            width: '80px',
-            height: '100%',
-            pointerEvents: 'none',
-            zIndex: 1
-          }}
-        >
-          {/* Ligne horizontale sortante */}
-          <line
-            x1="0"
-            y1={currentY}
-            x2="40"
-            y2={currentY}
-            stroke="rgba(255, 255, 255, 0.6)"
-            strokeWidth="2"
-          />
-          
-          {/* Ligne verticale de connexion (seulement pour le match du haut de chaque paire) */}
-          {isTop && (
-            <>
-              <line
-                x1="40"
-                y1={currentY}
-                x2="40"
-                y2={currentY + (totalHeight / currentMatches.length)}
-                stroke="rgba(255, 255, 255, 0.6)"
-                strokeWidth="2"
-              />
-              {/* Ligne horizontale vers le match suivant */}
-              <line
-                x1="40"
-                y1={nextY}
-                x2="80"
-                y2={nextY}
-                stroke="rgba(255, 255, 255, 0.6)"
-                strokeWidth="2"
-              />
-            </>
-          )}
-        </svg>
-      );
-    });
-  };
+function Brackets({ rounds, me, onWinnerDeclared }) {
+    if (!rounds || Object.keys(rounds).length === 0) {
+        return <p className="bracket-empty">Aucun match à afficher.</p>;
+    }
 
-  return (
-    <div
-      style={{
-        minHeight: '100vh',
-        padding: '40px',
-        fontFamily: 'Arial, sans-serif'
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'start',
-          gap: '80px',
-          position: 'relative'
-        }}
-      >
-        {rounds.map((matches, roundIndex) => (
-          <div
-            key={roundIndex}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-around',
-              height: `${totalHeight}px`,
-              position: 'relative',
-              zIndex: 2
-            }}
-          >
-            {/* Titre du round */}
-            <div
-              style={{
-                position: 'absolute',
-                top: '-30px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                color: 'white',
-                fontWeight: 'bold',
-                fontSize: '14px'
-              }}
-            >
-              {roundIndex === roundCount - 1 
-                ? 'FINALE' 
-                : roundIndex === roundCount - 2 
-                ? 'DEMI-FINALE'
-                : `ROUND ${roundIndex + 1}`
-              }
+    const sortedRounds = Object.keys(rounds)
+        .sort((a, b) => parseInt(a) - parseInt(b))
+        .map((key) => rounds[key]);
+
+    const handleDeclareWinner = async (matchId, winnerTeamId) => {
+        try {
+            const token = localStorage.getItem("access_token");
+
+            const response = await fetch(`http://localhost:4000/tournaments/matches/${matchId}/winner`, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ winner_id: winnerTeamId })
+            });
+
+            if (!response.ok) {
+                const message = await response.text();
+                throw new Error(`Erreur API : ${message}`);
+            }
+
+            alert("✅ Vainqueur déclaré !");
+            if (typeof onWinnerDeclared === 'function') onWinnerDeclared();
+
+        } catch (error) {
+            alert(`❌ Erreur réseau : ${error.message}`);
+            console.error(error);
+        }
+    };
+
+    const renderMatch = (match) => (
+        <div className="match-box" key={match.id}>
+            <div className="match-title" title={`${match.team_a_name} vs ${match.team_b_name}`}>
+                <span className="ellipsis">{match.team_a_name || 'TBD'}</span>
+                <span className="vs">VS</span>
+                <span className="ellipsis">{match.team_b_name || 'TBD'}</span>
             </div>
-            
-            {matches.map((match, matchIndex) => (
-              <div
-                key={matchIndex}
-                style={{
-                  backgroundColor: 'rgba(226, 191, 255, 0.95)',
-                  borderRadius: '12px',
-                  padding: '12px',
-                  textAlign: 'center',
-                  color: '#333',
-                  width: '200px',
-                  minHeight: '70px',
-                  boxSizing: 'border-box',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
-                  border: '2px solid rgba(255, 255, 255, 0.3)',
-                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                  cursor: 'pointer'
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.transform = 'scale(1.05)';
-                  e.target.style.boxShadow = '0 6px 16px rgba(0, 0, 0, 0.3)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.transform = 'scale(1)';
-                  e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
-                }}
-              >
-                <div style={{ fontSize: '13px', fontWeight: '600', marginBottom: '4px' }}>
-                  {match.teamA || 'TBD'}
-                </div>
-                <div style={{ 
-                  fontWeight: 'bold', 
-                  margin: '2px 0', 
-                  fontSize: '11px',
-                  color: '#666'
-                }}>
-                  VS
-                </div>
-                <div style={{ fontSize: '13px', fontWeight: '600', marginTop: '4px' }}>
-                  {match.teamB || 'TBD'}
-                </div>
-                {match.score && (
-                  <div style={{ 
-                    fontSize: '12px', 
-                    color: '#8B5CF6', 
-                    fontWeight: 'bold',
-                    marginTop: '4px'
-                  }}>
-                    {match.score}
-                  </div>
+
+            <div className="winner-buttons">
+                {match.winner_name ? (
+                    <div className="winner-label">✅ Gagnant : {match.winner_name}</div>
+                ) : (
+                    (me?.role === 'admin' || me?.role === 'moderator') && (
+                        <>
+                            <button onClick={() => handleDeclareWinner(match.id, match.team_a_id)}>✅ {match.team_a_name}</button>
+                            <button onClick={() => handleDeclareWinner(match.id, match.team_b_id)}>✅ {match.team_b_name}</button>
+                        </>
+                    )
                 )}
-              </div>
-            ))}
-            
-            {/* Rendu des connexions */}
-            {renderConnections(roundIndex)}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+            </div>
+        </div>
+    );
+
+    return (
+        <div className="bracket-container">
+            <div className="bracket-wrapper">
+                {sortedRounds.map((matches, roundIndex) => (
+                    <div className="bracket-column" key={roundIndex}>
+                        <h3 className="bracket-round">
+                            {roundIndex === sortedRounds.length - 1 ? 'FINALE' :
+                                roundIndex === sortedRounds.length - 2 ? 'DEMI-FINALE' :
+                                    `ROUND ${roundIndex + 1}`}
+                        </h3>
+                        {matches.map(renderMatch)}
+                    </div>
+                ))}
+
+                {/* Lignes SVG */}
+                <svg className="bracket-svg">
+                    {sortedRounds.slice(0, -1).map((matches, roundIndex) => {
+                        const nextMatches = sortedRounds[roundIndex + 1];
+                        return matches.map((_, matchIndex) => {
+                            const nextIndex = Math.floor(matchIndex / 2);
+                            const topY = (matchIndex * 170) + 95;
+                            const bottomY = ((matchIndex + 1) * 170) + 25;
+                            const middleY = (topY + bottomY) / 2;
+                            const x1 = 280 + (roundIndex * 320);
+
+                            return (
+                                <g key={`c-${roundIndex}-${matchIndex}`}>
+                                    <path
+                                        d={`M${x1},${topY} C${x1 + 50},${topY} ${x1 + 50},${middleY} ${x1 + 100},${middleY}`}
+                                        stroke="rgba(255,0,255,0.6)"
+                                        fill="none"
+                                        strokeWidth="2"
+                                    />
+                                    <path
+                                        d={`M${x1},${bottomY} C${x1 + 50},${bottomY} ${x1 + 50},${middleY} ${x1 + 100},${middleY}`}
+                                        stroke="rgba(255,0,255,0.6)"
+                                        fill="none"
+                                        strokeWidth="2"
+                                    />
+                                </g>
+                            );
+                        });
+                    })}
+                </svg>
+            </div>
+        </div>
+    );
 }
 
 export default Brackets;

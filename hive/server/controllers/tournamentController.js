@@ -99,12 +99,25 @@ exports.getRegisteredTournaments = async (req, res) => {
 
     try {
         const result = await pool.query(`
-      SELECT t.*
-      FROM tournaments t
-      JOIN tournament_registrations tr ON t.id = tr.tournament_id
-      WHERE tr.team_id = $1
-      ORDER BY t.start_date ASC
-    `, [teamId]);
+            SELECT
+                t.id,
+                t.name,
+                t.game,
+                t.description,
+                t.start_date,
+                t.created_by,
+                COALESCE(u.username, 'unknown') AS creator,
+                t.created_at,
+                t.status,
+                t.elo_min AS eloMin,
+                t.elo_max AS eloMax,
+                t.max_teams AS maxTeams
+            FROM tournaments t
+                     JOIN tournament_registrations tr ON t.id = tr.tournament_id
+                     LEFT JOIN users u ON t.created_by = u.id
+            WHERE tr.team_id = $1
+            ORDER BY t.start_date ASC
+        `, [teamId]);
 
         res.status(200).json({ tournaments: result.rows });
     } catch (err) {
@@ -207,8 +220,38 @@ exports.getTournamentMatches = async (req, res) => {
     }
 };
 
+exports.getAllTournaments = async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT
+                t.id,
+                t.name,
+                t.game,
+                t.description,
+                t.start_date,
+                t.created_by,
+                COALESCE(u.username, 'unknown') AS creator,
+                t.created_at,
+                t.status,
+                t.elo_min AS eloMin,
+                t.elo_max AS eloMax,
+                t.max_teams AS maxTeams
+            FROM tournaments t
+                     LEFT JOIN users u ON t.created_by = u.id
+            ORDER BY t.created_at DESC;
+
+        `);
+
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Erreur lors de la récupération des tournois :', error);
+        res.status(500).json({ error: "Erreur serveur lors de la récupération des tournois." });
+    }
+};
+
 exports.declareWinner = async (req, res) => {
     const matchId = parseInt(req.params.id, 10);
+
     const winner_id = parseInt(req.body.winner_id, 10);
 
     try {
@@ -313,5 +356,57 @@ exports.deleteTournament = async (req, res) => {
     } catch (err) {
         console.error('Erreur suppression tournoi :', err);
         res.status(500).json({ error: "Erreur lors de la suppression du tournoi" });
+    }
+};
+
+exports.getTeamsForTournament = async (req, res) => {
+    const tournamentId = req.params.id;
+
+    try {
+        const result = await pool.query(`
+      SELECT teams.id, teams.name, teams.elo
+      FROM tournament_registrations
+      JOIN teams ON tournament_registrations.team_id = teams.id
+      WHERE tournament_registrations.tournament_id = $1
+    `, [tournamentId]);
+
+        res.json({ teams: result.rows });
+    } catch (err) {
+        console.error("Erreur getTeamsForTournament :", err);
+        res.status(500).json({ error: 'Erreur serveur', detail: err.message });
+    }
+};
+
+exports.unregisterTeamFromTournament = async (req, res) => {
+    const tournamentId = parseInt(req.params.id, 10);
+    const userId = req.user.id;
+
+    try {
+        // Vérifier si l'utilisateur est owner d'une team
+        const teamRes = await pool.query(`
+            SELECT * FROM teams WHERE owner_id = $1
+        `, [userId]);
+
+        const team = teamRes.rows[0];
+        if (!team) return res.status(403).json({ error: "Vous ne possédez pas d'équipe." });
+
+        // Vérifier si cette team est inscrite au tournoi
+        const check = await pool.query(`
+            SELECT * FROM tournament_registrations WHERE tournament_id = $1 AND team_id = $2
+        `, [tournamentId, team.id]);
+
+        if (check.rowCount === 0)
+            return res.status(400).json({ error: "Votre équipe n'est pas inscrite à ce tournoi." });
+
+        // Supprimer l'inscription
+        await pool.query(`
+            DELETE FROM tournament_registrations WHERE tournament_id = $1 AND team_id = $2
+        `, [tournamentId, team.id]);
+
+        res.json({ message: "Votre équipe a bien quitté le tournoi." });
+
+    } catch (err) {
+        console.error("Erreur désinscription :", err);
+        res.status(500).json({ error: "Erreur serveur lors de la désinscription." });
     }
 };

@@ -9,11 +9,14 @@ router.post('/:teamId/invite', authMiddleware, teamController.inviteToTeam);
 router.post('/create', authMiddleware, teamController.createTeam);
 router.post('/invitations/:invitationId/respond', authMiddleware, teamController.respondToInvitation);
 
+router.get('/notifications', authMiddleware, teamController.getNotifications);
 router.get('/', teamController.getAllTeams);
 router.get('/my-team', authMiddleware, teamController.getMyTeams);
 router.get('/invitations', authMiddleware, teamController.getInvitations);
 router.get('/:teamId/invitations', authMiddleware, teamController.getSentInvitations);
 router.get('/invitations/received', authMiddleware, teamController.getReceivedInvitations);
+router.get('/:teamId/members', authMiddleware, teamController.getTeamMembers);
+router.get('/:teamId', authMiddleware, teamController.getTeamById);
 
 router.delete('/invitations/:invitationId', authMiddleware, teamController.cancelInvitation);
 router.delete('/:teamId', authMiddleware, teamController.deleteTeam);

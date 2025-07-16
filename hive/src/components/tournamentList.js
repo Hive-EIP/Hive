@@ -1,88 +1,85 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import '../styles/tournaments.css';
+import defaultLogo from "../assets/images/trophy.webp";
 
-const TournamentList = ({ title, apiUrl }) => {
-  const [tournaments, setTournaments] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const navigate = useNavigate();
+const TournamentList = ({ title, apiUrl, extractFromField = null }) => {
+    const [tournaments, setTournaments] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchTournaments = async () => {
-      try {
-        const res = await fetch(apiUrl);
-        const data = await res.json();
-        setTournaments(data);
-      } catch (err) {
-        console.error("Erreur lors du chargement des tournois:", err);
-      }
-    };
-    fetchTournaments();
-  }, [apiUrl]);
+    useEffect(() => {
+        const fetchTournaments = async () => {
+            try {
+                const token = localStorage.getItem('access_token');
+                const res = await fetch(apiUrl, {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
 
-  const filteredTournaments = tournaments.filter(t =>
-    t.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+                if (!res.ok) throw new Error(`Erreur HTTP ${res.status}`);
+                const data = await res.json();
+                const extracted = extractFromField ? data[extractFromField] : data;
 
-  return (
-    <div style={{ width: '30%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <h2 style={{ fontSize: '24px', fontWeight: 'bold' }}>{title}</h2>
-      <input
-        type="text"
-        placeholder="🔍 Rechercher"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        style={{
-          backgroundColor: '#f6e8da',
-          borderRadius: '20px',
-          padding: '6px 12px',
-          border: 'none',
-          outline: 'none',
-          width: '50%',
-          marginBottom: '12px'
-        }}
-      />
-      <div style={{
-        width: '100%',
-        backgroundColor: '#fff1e2',
-        padding: '16px',
-        boxSizing: 'border-box',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        borderRadius: '20px',
-        gap: '8px'
-      }}>
-        {filteredTournaments.map((tournament, index) => (
-          <div
-            key={index}
-            onClick={() => navigate('/tournamentPage', { state: { id: tournament.tournamentId, data: tournament } })}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              backgroundColor: '#fce5cd',
-              padding: '1px',
-              justifyContent: 'space-between',
-              cursor: 'pointer',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <img
-                src={`${tournament.image}`}
-                alt="tournament"
-                style={{ width: '32px', height: '32px', borderRadius: '4px' }}
-              />
-              <span style={{ fontWeight: '500', color: 'black' }}>{tournament.name}</span>
+                if (!Array.isArray(extracted)) {
+                    console.error("⚠️ Réponse inattendue (pas un tableau) :", data);
+                    setTournaments([]);
+                } else {
+                    setTournaments(extracted);
+                }
+            } catch (err) {
+                console.error("Erreur lors du chargement des tournois:", err);
+                setTournaments([]);
+            }
+        };
+
+        fetchTournaments();
+    }, [apiUrl, extractFromField]);
+
+    const filteredTournaments = tournaments.filter(t =>
+        t.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    return (
+        <div className="tournament-card">
+            <h2 className="tournament-card-title">{title}</h2>
+            <input
+                type="text"
+                placeholder="🔍 Research"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="tournament-search"
+            />
+
+            <div className="tournament-list-scroll">
+                {filteredTournaments.map((tournament, index) => (
+                    <div
+                        key={index}
+                        className="tournament-item"
+                        onClick={() =>
+                            navigate('/tournamentPage', { state: { id: tournament.id, data: tournament } })
+                        }
+                    >
+                        <div className="tournament-info-left">
+                            <img
+                                src={tournament.image || defaultLogo}
+                                alt="trophy"
+                                className="tournament-logo"
+                            />
+                            <div>
+                                <strong>{tournament.name}</strong>
+                                <div style={{ fontSize: '0.85rem', color: '#ccc' }}>
+                                    Elo: {tournament.elomin} – {tournament.elomax}
+                                </div>
+                            </div>
+                        </div>
+                        <div className="tournament-info-right">
+                            By <strong>{tournament.creator}</strong>
+                        </div>
+                    </div>
+                ))}
             </div>
-              <div style={{ fontSize: '12px', color: '#6e4f3a', display: 'flex', gap: '25px' }}>
-                <span>Elo restriction: {tournament.elo_restriction}</span>
-                <span>Created by: <b>{tournament.creator}</b></span>
-              </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default TournamentList;

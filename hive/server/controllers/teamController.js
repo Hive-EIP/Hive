@@ -146,10 +146,22 @@ exports.inviteToTeam = async (req, res) => {
         }
 
         // Crée l'invitation
-        await pool.query(
-            'INSERT INTO team_invitations (team_id, invited_user_id, invited_by) VALUES ($1, $2, $3)',
+        const insertResult = await pool.query(
+            'INSERT INTO team_invitations (team_id, invited_user_id, invited_by) VALUES ($1, $2, $3) RETURNING *',
             [teamId, invitedUserId, invitedBy]
         );
+
+        // ➕ Notification instantanée via Socket.IO
+        console.log(`📨 Émission socket vers user_${invitedUserId}`);
+        if (global.io) {
+            global.io.to(`user_${invitedUserId}`).emit('team_invitation', {
+                type: 'invitation',
+                invitationId: insertResult.rows[0].id,
+                teamId: teamId,
+                invitedBy: invitedBy,
+                timestamp: new Date().toISOString()
+            });
+        }
 
         res.status(201).json({ message: "Invitation envoyée." });
     } catch (error) {
@@ -217,7 +229,7 @@ exports.respondToInvitation = async (req, res) => {
     const userId = req.user.id;
     const { invitationId } = req.params;
     const { response } = req.body;
-
+    console.log(req.body);
     if (!['accept', 'decline'].includes(response)) {
         return res.status(400).json({ error: 'Réponse invalide' });
     }
@@ -304,14 +316,21 @@ exports.getReceivedInvitations = async (req, res) => {
         const userId = req.user.id;
 
         const query = `
-            SELECT i.id AS invitation_id, i.status, i.created_at,
-                   t.id AS team_id, t.name AS team_name, t.tag AS team_tag
+            SELECT
+                i.id AS invitation_id,
+                i.status,
+                i.created_at,
+                i.invited_by,
+                u.username AS invited_by_username,
+                t.id AS team_id,
+                t.name AS team_name,
+                t.tag AS team_tag
             FROM team_invitations i
                      JOIN teams t ON i.team_id = t.id
+                     JOIN users u ON i.invited_by = u.id
             WHERE i.invited_user_id = $1 AND i.status = 'pending'
             ORDER BY i.created_at DESC
         `;
-
 
         const { rows } = await pool.query(query, [userId]);
 
@@ -344,5 +363,56 @@ exports.deleteTeam = async (req, res) => {
     } catch (err) {
         console.error("Erreur deleteTeam:", err);
         res.status(500).json({ error: "Erreur serveur" });
+    }
+};
+
+exports.getTeamMembers = async (req, res) => {
+    const teamId = req.params.teamId;
+
+    try {
+        const { rows } = await pool.query(`
+      SELECT u.id, u.username, u.profile_picture_url, tm.role, tm.joined_at
+      FROM team_members tm
+      JOIN users u ON u.id = tm.user_id
+      WHERE tm.team_id = $1
+    `, [teamId]);
+
+        res.status(200).json(rows);
+    } catch (err) {
+        console.error('Erreur lors de la récupération des membres de l’équipe :', err);
+        res.status(500).json({ error: "Erreur lors de la récupération des membres." });
+    }
+};
+
+exports.getTeamById = async (req, res) => {
+    const { teamId } = req.params;
+    try {
+        const result = await pool.query('SELECT * FROM teams WHERE id = $1', [teamId]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'Team not found' });
+        }
+        res.status(200).json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Erreur lors de la récupération de la team' });
+    }
+};
+
+exports.getNotifications = async (req, res) => {
+    const userId = req.user.id;
+
+    try {
+        const result = await pool.query(`
+            SELECT ti.*, t.name AS team_name
+            FROM team_invitations ti
+            JOIN teams t ON ti.team_id = t.id
+            WHERE ti.invited_user_id = $1 AND ti.status = 'pending'
+            ORDER BY ti.created_at DESC
+        `, [userId]);
+
+        res.json(result.rows);
+    } catch (err) {
+        console.error('Erreur récupération notifications :', err);
+        res.status(500).json({ error: "Erreur lors de la récupération des notifications" });
     }
 };
